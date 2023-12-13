@@ -14,6 +14,13 @@ class CrudController extends Controller
     {
         return view('index');
     }
+    public function read()
+    {
+        $data = M_Crud::all();
+        return view('read')->with([
+            'data' => $data
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -35,12 +42,9 @@ class CrudController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(string $id)
     {
-        $data = M_Crud::all();
-        return view('show')->with([
-            'data' => $data
-        ]);
+        //
     }
 
     /**
@@ -48,7 +52,10 @@ class CrudController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = M_Crud::findOrFail($id);
+        return view('edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -56,7 +63,9 @@ class CrudController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = M_Crud::findOrFail($id);
+        $data->name = $request->name;
+        $data->save();
     }
 
     /**
@@ -64,6 +73,7 @@ class CrudController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = M_Crud::findOrFail($id);
+        $data->delete();
     }
 }

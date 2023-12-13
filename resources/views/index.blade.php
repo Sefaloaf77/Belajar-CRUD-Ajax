@@ -54,14 +54,22 @@
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <script>
-
         $(document).ready(function(){
             read();
         })
         //read database
         function read(){
-            $.get("{{url('show')}}",{},function(data,status){
+            $.get("{{url('read')}}",{},function(data,status){
                 $("#read").html(data);
+            })
+        }
+
+        //modal edit
+        function edit(id){
+            $.get("{{url('edit')}}/"+id,{},function(data,status){
+                $("#exampleModalLabel").html('Edit Product')
+                $("#page").html(data)
+                $("#exampleModal").modal("show")
             })
         }
         // modal create
@@ -85,6 +93,40 @@
                     read()
                     // $("#page").html('')
 
+                }
+            });
+        }
+
+        //proses update data
+        function update(id){
+            var name = $("#name").val();
+            $.ajax({
+                type:"get",
+                url: "{{url('update')}}/"+id,
+                data: "name="+name,
+                success: function(data){
+                    $(".btn-close").click();
+                    read()
+                    // $("#page").html('')
+                
+                }
+            });
+        }
+
+
+        //proses delete data
+        function destroy(id){
+            // confirm("Apakah yakin data akan di hapus?");
+            // var name = $("#name").val();
+            $.ajax({
+                type:"get",
+                url: "{{url('destroy')}}/"+id,
+                data: "name="+name,
+                success: function(data){
+                    $(".btn-close").click();
+                    read()
+                    // $("#page").html('')
+                
                 }
             });
         }
